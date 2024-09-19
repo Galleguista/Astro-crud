@@ -1,0 +1,50 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Usuario</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.0.0/dist/cdn.min.js" defer></script>
+  </head>
+  <body>
+    <h1>Crear Usuario</h1>
+
+    <!-- Formulario manejado por Alpine.js -->
+    <form x-data="{
+        register_number: '',
+        body: '{}',
+        async submitForm() {
+          const data = {
+            register_number: this.register_number,
+            body: JSON.parse(this.body)
+          };
+
+          const response = await fetch('http://localhost:3000/module/legal_bureau/user-data', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+            window.location.href = '/users';
+          } else {
+            alert('Error al crear el usuario');
+          }
+        }
+      }" @submit.prevent="submitForm">
+      <div>
+        <label for="register_number">Número de Registro:</label>
+        <input type="number" x-model="register_number" id="register_number" required />
+      </div>
+      <div>
+        <label for="body">Datos del Usuario (en JSON):</label>
+        <textarea x-model="body" id="body" required></textarea>
+      </div>
+      <button type="submit">Crear Usuario</button>
+    </form>
+  </body>
+</html>

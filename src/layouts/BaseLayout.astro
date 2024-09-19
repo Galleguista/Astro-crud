@@ -1,0 +1,36 @@
+---
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Aplicación</title>
+
+    <!-- Incluyendo Alpine.js globalmente -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.0.0/dist/cdn.min.js" defer></script>
+
+    <!-- Puedes agregar aquí tus estilos globales -->
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/users">Usuarios</a></li>
+          <li><a href="/users/create">Crear Usuario</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Aquí va el contenido de cada página -->
+      <slot />
+    </main>
+
+    <footer>
+      <p>© 2024 Mi Aplicación. Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>

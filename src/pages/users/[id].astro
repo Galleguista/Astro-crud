@@ -1,0 +1,65 @@
+---
+const { id } = Astro.params;
+const response = await fetch(`http://localhost:3000/module/legal_bureau/user-data/${id}`);
+const user = await response.json();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Usuario</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.0.0/dist/cdn.min.js" defer></script>
+  </head>
+  <body>
+    <h1>Editar Usuario</h1>
+
+    <form x-data="{
+        register_number: {{ user.user_register_number }},
+        body: JSON.stringify({{ user.body }}),
+        async submitForm() {
+          const data = {
+            register_number: this.register_number,
+            body: JSON.parse(this.body)
+          };
+
+          const response = await fetch(`http://localhost:3000/module/legal_bureau/user-data/${id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          if (response.ok) {
+            window.location.href = '/users';
+          } else {
+            alert('Error al actualizar el usuario');
+          }
+        },
+        async deleteUser() {
+          const response = await fetch(`http://localhost:3000/module/legal_bureau/user-data/${id}`, {
+            method: 'DELETE'
+          });
+
+          if (response.ok) {
+            window.location.href = '/users';
+          } else {
+            alert('Error al eliminar el usuario');
+          }
+        }
+      }" @submit.prevent="submitForm">
+      <div>
+        <label for="register_number">Número de Registro:</label>
+        <input type="number" x-model="register_number" id="register_number" required />
+      </div>
+      <div>
+        <label for="body">Datos del Usuario (en JSON):</label>
+        <textarea x-model="body" id="body" required></textarea>
+      </div>
+      <button type="submit">Actualizar Usuario</button>
+    </form>
+
+    <button @click="deleteUser">Eliminar Usuario</button>
+  </body>
+</html>

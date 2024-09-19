@@ -1,0 +1,26 @@
+---
+const response = await fetch('http://localhost:3000/module/legal_bureau/user-data');
+const users = await response.json();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Usuarios</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.0.0/dist/cdn.min.js" defer></script>
+  </head>
+  <body>
+    <h1>Lista de Usuarios</h1>
+    <div x-data="{ users: {{ users | json }} }">
+      <ul>
+        <template x-for="user in users" :key="user.id">
+          <li>
+            <a :href="`/users/${user.id}`" x-text="'Usuario ' + user.user_register_number"></a>
+          </li>
+        </template>
+      </ul>
+      <a href="/users/create">Crear nuevo usuario</a>
+    </div>
+  </body>
+</html>
